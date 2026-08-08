@@ -1,0 +1,16 @@
+{
+  "name": "20minds",
+  "owner": {
+    "name": "20minds Ltd",
+    "url": "https://20minds.ai"
+  },
+  "description": "Decide Together. Before Certainty. 20minds Decide is a shared workspace for questions, evidence, and options. It draws on context from Slack, email, and local documents to fill the gaps with evidence, overlooked questions, and options worth considering.",
+  "plugins": [
+    {
+      "name": "20minds",
+      "source": "./plugins/20minds",
+      "description": "Decide Together. Before Certainty. 20minds Decide is a shared workspace for questions, evidence, and options. It draws on context from Slack, email, and local documents to fill the gaps with evidence, overlooked questions, and options worth considering.",
+      "license": "FSL-1.1-MIT"
+    }
+  ]
+}

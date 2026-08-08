@@ -1,0 +1,35 @@
+{
+  "name": "20minds",
+  "version": "0.4.0",
+  "description": "Decide Together. Before Certainty. 20minds Decide is a shared workspace for questions, evidence, and options. It draws on context from Slack, email, and local documents to fill the gaps with evidence, overlooked questions, and options worth considering.",
+  "author": {
+    "name": "20minds Ltd",
+    "url": "https://20minds.ai"
+  },
+  "homepage": "https://20minds.ai/decide/",
+  "repository": "https://github.com/20minds/agent-plugins",
+  "license": "FSL-1.1-MIT",
+  "keywords": [
+    "decide",
+    "decision",
+    "decision-making",
+    "research",
+    "airedale",
+    "20minds",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "20minds",
+    "shortDescription": "Decide Together. Before Certainty.",
+    "longDescription": "20minds Decide is a shared workspace for questions, evidence, and options. It draws on context from Slack, email, and local documents to fill the gaps with evidence, overlooked questions, and options worth considering.",
+    "developerName": "20minds Ltd",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://20minds.ai/decide/",
+    "brandColor": "#159B91",
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo.svg"
+  }
+}

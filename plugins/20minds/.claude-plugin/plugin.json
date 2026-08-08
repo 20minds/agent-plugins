@@ -1,0 +1,14 @@
+{
+  "name": "20minds",
+  "displayName": "20minds",
+  "description": "Decide Together. Before Certainty. 20minds Decide is a shared workspace for questions, evidence, and options. It draws on context from Slack, email, and local documents to fill the gaps with evidence, overlooked questions, and options worth considering.",
+  "version": "0.4.0",
+  "author": {
+    "name": "20minds Ltd",
+    "url": "https://20minds.ai"
+  },
+  "homepage": "https://20minds.ai/decide/",
+  "license": "FSL-1.1-MIT",
+  "keywords": ["decide", "decision", "decision-making", "research", "airedale", "20minds", "mcp"],
+  "mcpServers": "./.mcp.json"
+}
