@@ -1,145 +1,98 @@
-# 20minds Plugin
+# 20minds plugins
 
-Connect your AI coding tool to [20minds Decide](https://20minds.ai/decide/). The `20minds` plugin gives your agent two skills:
+Install **20minds Decide** to open your decision canvas, work with evidence and alternatives, and record decisions and outcomes. The package includes the `decide` and `research` skills and connects to the authenticated MCP server at `https://20minds.ai/mcp`.
 
-- **`20minds:decide`**: pose, research, triage, and take decisions in 20minds Decide.
-- **`20minds:research`**: run the Airedale research workflow with a falsifiable thesis, evidence discipline, and dependency ordering.
+## ChatGPT desktop / Codex
 
-The plugin registers the authenticated 20minds MCP server, so the agent can work with your 20minds workspace after you sign in.
+Register the marketplace from a terminal:
 
-## What is a plugin?
-
-A plugin packages instructions and integrations for an AI coding tool. In this repository, the `20minds` plugin bundles the `decide` and `research` skills and includes the configuration needed to connect them to 20minds Decide.
-
-Installing the plugin gives your agent reusable workflows and tells it how to use the 20minds tools. The plugin itself does not contain your workspace data.
-
-## What is an MCP server?
-
-MCP, the Model Context Protocol, is a standard way for an AI agent to connect to external tools and services. An MCP server exposes those tools to the agent through an authenticated connection.
-
-The 20minds MCP server is available at `https://20minds.ai/mcp`. It provides access to the 20minds Decide workspace and decision-making capabilities. The plugin configures this connection for you; you still need to authenticate before using it.
-
-## Getting started
-
-The quickest setup is to install the plugin from this marketplace in the client you use. The marketplace is hosted at [`20minds/agent-plugins`](https://github.com/20minds/agent-plugins), and the plugin is named `20minds`.
-
-Once installed, sign in when your client asks for access to the 20minds MCP server. In Claude Code, the login command is:
-
-```text
-claude mcp login 20minds
+```sh
+codex plugin marketplace add 20minds/agent-plugins
 ```
 
-Then start a new agent session and ask it to use 20minds Decide, for example to help frame a decision or research a thesis. If the server does not appear, restart the client and check its MCP tools or server list.
+Restart ChatGPT desktop, open Plugins in Work or Codex mode, choose **20minds**, and install **20minds Decide**. Complete OAuth, start a new chat, and ask “Open my Decide workspace.” Canvas and extension surfaces depend on the host; tools remain useful in hosts without the UI.
 
-## Connect to Claude Code (Terminal)
+To refresh the catalog after a release:
 
-### Plugin (recommended)
+```sh
+codex plugin marketplace upgrade 20minds
+```
 
-Run these commands in Claude Code:
+Reinstall the plugin to pick up changed package files. This release uses plugin ID `20minds`, skills `20minds:decide` and `20minds:research`, and MCP connection name `decide`. Uninstall the temporary `20minds-decide` package if installed.
+
+## Claude Code
 
 ```text
 /plugin marketplace add 20minds/agent-plugins
 /plugin install 20minds@20minds
 ```
 
-After installation, authenticate the MCP server:
+Authenticate the `decide` MCP connection through the client's MCP controls. The bundled skills and tools work independently of ChatGPT-specific extension surfaces.
 
-```text
-claude mcp login 20minds
+## Ownership
+
+This repository owns the distributable manifest, connection configuration, skills, artwork, and marketplace. [20minds/decide](https://github.com/20minds/decide) owns the product, extension frontend, MCP tools, OAuth, database access, and deployment.
+
+The canvas HTML is delivered as an MCP resource by the backend. It is not bundled here. No user data or credentials belong in this repository.
+
+## Maintain and release
+
+Edit `plugins/20minds/plugin.json`, `mcp.json`, and `skills/`. The root manifests use Agent Plugins 1.0. Keep package identity `20minds` and marketplace identity `20minds` consistent.
+
+Claude and Codex client manifests are generated adapters. After changing portable metadata or the endpoint, run:
+
+```sh
+node scripts/generate-adapters.mjs
 ```
 
-Use `/mcp` to confirm that the `20minds` server is connected.
+Commit the generated files with the source changes. Do not edit them independently. Run `node scripts/check.mjs` before opening a PR; CI checks manifests, asset paths, skills, MCP configuration, and generated adapter consistency.
 
-### Manual MCP setup
+For a release:
 
-If you do not want to install the plugin, add the remote server directly:
+1. Bump the portable manifest's semantic version when package contents change.
+2. For changes involving tools or canvas behavior, deploy the corresponding Decide backend and UI first.
+3. Regenerate adapters, review package changes, and merge the release PR here.
+4. Install in the intended host, complete OAuth, and exercise the affected workflow before announcing availability.
 
-```text
-claude mcp add 20minds --transport http https://20minds.ai/mcp --scope user
-claude mcp login 20minds
+Canvas-only releases require a Decide deployment. Package metadata, skill, or connection changes require a release here. There is no package-copy or synchronization step between the repositories.
+
+See [OpenAI's marketplace documentation](https://developers.openai.com/plugins/build/plugins) for installation and catalog behavior.
+
+## License
+
+See [LICENSE.md](LICENSE.md).
+
+## Updates and migration
+
+Backend deployments deliver canvas changes the next time its resource is loaded. Close and reopen an existing canvas after an update. Skills, icons, and package metadata are cached by the client: refresh the marketplace and reinstall the package to receive those changes. A backend deployment does not refresh installed skills.
+
+Version 0.6.0 restores plugin identity `20minds` and the skill names `20minds:decide` and `20minds:research`. Uninstall the temporary `20minds-decide` package, install `20minds`, and authenticate the MCP connection `decide`. Workspace data stays on the same server. No alias for the temporary identity is retained.
+
+## First extension release checklist
+
+Record results in the release PR; do not infer host support from the browser preview.
+
+- Deploy the matching backend commit and compiled UI before publishing this package.
+- In a fresh ChatGPT desktop installation/session, register the marketplace and install the plugin. Confirm the name, icon, tools, OAuth consent, successful login, and reconnection.
+- Open the workspace from the conversation and sidebar entrypoints. Open a decision, select a card, and verify the next prompt receives the intended context.
+- Create a disposable project/decision, edit a card, take and reopen a decision, and record an outcome. Confirm persistence after closing and reopening the canvas.
+- Check sign-out and denied access; another account must not see the disposable workspace. Delete the disposable data afterward.
+- Exercise the previous released package against the deployed backend to document the upgrade impact. The old identity is unsupported; if its tools fail, tell users to migrate before release announcement.
+- Confirm the generated client adapters connects and the bundled skills can use the current tools.
+- Publish only after recording host version, backend commit, package version, and results. Install failures and incomplete checks must remain explicit.
+
+### Desktop MCP loading
+
+Version 0.5.2 fixes a confirmed desktop parser error: per-server `extensions.com.openai.auth` in portable `mcp.json` was rejected as an unknown field. The HTTP entry now contains only `type` and `url`. OAuth remains enforced by the server and is discovered through its authentication challenge; no credentials are stored in the package.
+
+The generated Codex manifest explicitly references skills and `.mcp.json`. Portable root files remain authoritative. After publishing, refresh the marketplace, reinstall the plugin, and start a new chat. Complete OAuth if prompted. The presence of skills alone does not establish that the MCP server connected. If tools remain unavailable, inspect the runtime MCP startup error rather than repeatedly reinstalling.
+
+### Authenticate the MCP connection
+
+If skills load but tools are unavailable, check the MCP startup error. `Auth required` during initialize means the package was parsed and the server was reached, but login is still needed. Authenticate the connection named `decide` in the client's MCP controls or run:
+
+```sh
+codex mcp login decide
 ```
 
-This connects the MCP server but does not install the `decide` and `research` skills.
-
-## Connect to Claude Desktop
-
-### Plugin (recommended)
-
-1. Open Claude Desktop and go to **Code**.
-2. Open **Customize** in the sidebar.
-3. Next to **Personal plugins**, choose **Add plugin** → **Create plugin** → **Add marketplace**.
-4. Enter `20minds/agent-plugins` and submit it.
-5. Open the marketplace's **Code** tab and install **20minds**.
-
-Start a new Claude Code session from Claude Desktop and confirm the server from `/mcp`.
-
-### Manual MCP setup
-
-Open **Settings** → **Developer** → **Edit Config**, and add the `20minds` entry inside `mcpServers`:
-
-```json
-{
-  "mcpServers": {
-    "20minds": {
-      "command": "npx",
-      "args": ["mcp-remote", "https://20minds.ai/mcp"]
-    }
-  }
-}
-```
-
-Restart Claude Desktop after saving the file. Manual setup connects the MCP server, but does not install the plugin skills.
-
-## Connect to Codex
-
-### Plugin (recommended)
-
-In a terminal with Codex installed, add this marketplace:
-
-```text
-codex plugin marketplace add 20minds/agent-plugins
-```
-
-Then open `/plugins`, select the `20minds/agent-plugins` marketplace, and install the `20minds` plugin.
-
-### Manual MCP setup
-
-In the Codex app, go to **Settings** → **MCP Servers** → **Add custom MCP server**. Choose **Streamable HTTP**, use `20minds` as the name, and enter:
-
-```text
-https://20minds.ai/mcp
-```
-
-Save the server and confirm that it appears in the MCP server list. Manual setup connects the server without installing the plugin skills.
-
-## Connect to OpenCode
-
-Add the remote server to `opencode.json`:
-
-```json
-{
-  "mcp": {
-    "20minds": {
-      "type": "remote",
-      "url": "https://20minds.ai/mcp",
-      "enabled": true
-    }
-  }
-}
-```
-
-Restart OpenCode if needed, then check the connection with:
-
-```text
-opencode mcp list
-```
-
-## Verify the connection
-
-Open a new chat and ask the agent to use 20minds Decide to help with a small decision. The agent should request permission to use the `20minds` MCP server and then show the relevant workspace or decision tools. If the request fails, restart the client and begin a fresh session.
-
-## Validate locally
-
-```text
-claude plugin validate .
-```
+Complete the browser consent flow, then start a new chat. Reinstalling the package alone does not complete OAuth. Public plugin search does not list this repository marketplace package; use the configured **20minds** marketplace.

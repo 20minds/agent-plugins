@@ -5,7 +5,7 @@ description: Research a decision through the authenticated 20minds Decide MCP se
 
 # Airedale
 
-Airedale uses the authenticated `20minds` MCP server exclusively — no other API, local research script, or individual research mutation tool. Four compact tools cover everything: `decide_read(scope="decision")` reads the canvas and research graph; `research_sync` writes a thesis, issues, sources, claims, and facts in one batch; `decide_write` applies canvas changes when a finding should also appear as a card; `agent_control` is for run control only, never for writing findings.
+Airedale uses the authenticated `decide` MCP server exclusively — no other API, local research script, or individual research mutation tool. Use these compact tools for research: `decide_read(scope="decision")` reads the canvas and research graph; `research_sync` writes a thesis, issues, sources, claims, and facts in one batch; `decide_write` applies canvas changes when a finding should also appear as a card; `agent_control` is for run control only, never for writing findings.
 
 ## Workflow
 
@@ -19,7 +19,7 @@ Work in phases, in this order:
 
 Submit one `research_sync` call per coherent research iteration. Put the thesis in `thesis`, then dependent records in `issues`, `sources`, `claims`, and `facts`. The server persists them in dependency order. Include stable IDs when revising existing records, and link claims to source IDs and facts to claim IDs.
 
-If the user wants findings visible on the canvas, include the corresponding cards in one `decide_write` call with `operation="canvas_batch"`. Preserve the current decision `version`, reread after a conflict, and do not overwrite unrelated human cards.
+If the user wants findings visible on the canvas, include the corresponding cards in one `decide_write` call with `operation="canvas_batch"`. Preserve the current decision `version`, reread and reconcile after a conflict, and do not overwrite unrelated human cards.
 
 ## Evidence discipline
 
@@ -28,3 +28,5 @@ Distinguish observations, claims, and conclusions. Record what would falsify the
 Before reporting completion, use one more `decide_read` call and check that the thesis, issue tree, source links, claims, and facts are present and internally consistent.
 
 Never expose access or refresh tokens. Do not poll indefinitely. Return a concise progress summary after each batch.
+
+When host context identifies selected cards, use their IDs to scope the research and read the current decision before relying on attached text. Use `decide_open(decision_id=...)` when the user asks to see the canvas. If authentication fails, ask the user to reconnect the plugin; never request credentials.

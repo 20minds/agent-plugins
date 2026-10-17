@@ -1,0 +1,20 @@
+{
+  "name": "20minds",
+  "interface": {
+    "displayName": "20minds"
+  },
+  "plugins": [
+    {
+      "name": "20minds",
+      "source": {
+        "source": "local",
+        "path": "./plugins/20minds"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

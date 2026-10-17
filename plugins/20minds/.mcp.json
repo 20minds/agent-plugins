@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "20minds": {
-      "type": "http",
-      "url": "https://20minds.ai/mcp"
-    }
-  }
-}
