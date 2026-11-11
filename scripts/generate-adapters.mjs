@@ -9,7 +9,7 @@ const write = (path, value) => writeFileSync(resolve(root, path), JSON.stringify
 mkdirSync(resolve(root, '.claude-plugin'), { recursive: true })
 mkdirSync(resolve(root, folder, '.claude-plugin'), { recursive: true })
 write('.claude-plugin/marketplace.json', { name: '20minds', owner: plugin.author, plugins: [{ name: plugin.name, source: './' + folder, description: plugin.description, license: plugin.license }] })
-write(folder + '/.claude-plugin/plugin.json', { name: plugin.name, version: plugin.version, description: plugin.description, author: plugin.author, homepage: plugin.extensions['com.openai'].interface.websiteURL, repository: plugin.repository, license: plugin.license, mcpServers: './.mcp.json' })
+write(folder + '/.claude-plugin/plugin.json', { name: plugin.name, version: plugin.version, description: plugin.description, author: plugin.author, homepage: plugin.extensions['com.openai'].interface.websiteURL, repository: plugin.repository, license: plugin.license, mcpServers: './.mcp.json', hooks: './claude/hooks.json', icon: './assets/logo.png', privacyPolicyUrl: 'https://20minds.ai/policy/privacy', termsOfServiceUrl: 'https://20minds.ai/policy/terms-and-conditions' })
 write(folder + '/.mcp.json', { mcpServers: Object.fromEntries(Object.entries(mcp.mcpServers).map(([name, server]) => [name, { type: 'http', url: server.url }])) })
 
 // Older desktop runtimes load the explicit Codex manifest and MCP path.

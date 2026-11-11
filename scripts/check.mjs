@@ -53,6 +53,15 @@ for (const entry of marketplace.plugins) {
     assert(frontmatter[1].split(/\r?\n/).includes(`name: ${skill}`))
     assert(/^description: .+/m.test(frontmatter[1]))
   }
+  if (plugin.name === '20minds') {
+    const skills = readdirSync(resolve(folder, 'skills')).sort()
+    assert.deepEqual(skills, ['case', 'decide'], 'Keep one core Decide skill and the Claude-only pane shortcut')
+    const decide = readFileSync(contained(folder, 'skills/decide/SKILL.md'), 'utf8')
+    assert.match(decide, /^## Research workflow$/m, 'Research workflow belongs in the Decide skill')
+    assert.doesNotMatch(decide, /Use the bundled `research` skill/)
+    assert.match(decide, /A `research` change adds new records; one `case_write` accepts one discriminated `change`/)
+    assert.match(decide, /to verify citation links, call `case_read` and inspect `finding_evidence` against `evidence`/)
+  }
   const walk = path => {
     for (const name of readdirSync(path)) {
       const child = resolve(path, name)

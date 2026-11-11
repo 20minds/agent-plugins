@@ -1,0 +1,33 @@
+{
+  "name": "20minds",
+  "version": "0.8.6",
+  "description": "Frame decisions, examine evidence, compare options, and record outcomes in a shared workspace.",
+  "author": {
+    "name": "20minds Ltd",
+    "url": "https://20minds.ai"
+  },
+  "homepage": "https://20minds.ai/decide/",
+  "repository": "https://github.com/20minds/agent-plugins",
+  "license": "FSL-1.1-MIT",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "20minds Decide",
+    "shortDescription": "Decide together.",
+    "longDescription": "Open your decision canvas, examine evidence and alternatives, collaborate on the reasoning, and record decisions and outcomes.",
+    "developerName": "20minds Ltd",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://20minds.ai/decide/",
+    "logo": "./assets/logo.png",
+    "composerIcon": "./assets/logo.png",
+    "defaultPrompt": [
+      "Open my Decide workspace.",
+      "Help me examine the evidence for a decision."
+    ],
+    "brandColor": "#159B91"
+  }
+}

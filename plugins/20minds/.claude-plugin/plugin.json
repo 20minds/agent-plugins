@@ -1,0 +1,17 @@
+{
+  "name": "20minds",
+  "version": "0.8.6",
+  "description": "Frame decisions, examine evidence, compare options, and record outcomes in a shared workspace.",
+  "author": {
+    "name": "20minds Ltd",
+    "url": "https://20minds.ai"
+  },
+  "homepage": "https://20minds.ai/decide/",
+  "repository": "https://github.com/20minds/agent-plugins",
+  "license": "FSL-1.1-MIT",
+  "mcpServers": "./.mcp.json",
+  "hooks": "./claude/hooks.json",
+  "icon": "./assets/logo.png",
+  "privacyPolicyUrl": "https://20minds.ai/policy/privacy",
+  "termsOfServiceUrl": "https://20minds.ai/policy/terms-and-conditions"
+}

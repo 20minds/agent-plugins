@@ -1,6 +1,6 @@
 # 20minds plugins
 
-Install **20minds Decide** to open your decision canvas, work with evidence and alternatives, and record decisions and outcomes. The package includes the `decide` and `research` skills and connects to the authenticated MCP server at `https://20minds.ai/mcp`.
+Install **20minds Decide** to open your decision canvas, work with evidence and alternatives, and record decisions and outcomes. The package uses one core `decide` skill for case work and research, plus a Claude Code-only `case` shortcut for opening the workspace pane. It connects to the authenticated MCP server at `https://20minds.ai/mcp`.
 
 ## ChatGPT desktop / Codex
 
@@ -18,7 +18,7 @@ To refresh the catalog after a release:
 codex plugin marketplace upgrade 20minds
 ```
 
-Reinstall the plugin to pick up changed package files. This release uses plugin ID `20minds`, skills `20minds:decide` and `20minds:research`, and MCP connection name `decide`. Uninstall the temporary `20minds-decide` package if installed.
+Reinstall the plugin to pick up changed package files. This release uses plugin ID `20minds`, the core skill `20minds:decide`, the Claude Code-only pane shortcut `20minds:case`, and MCP connection name `decide`. Uninstall the temporary `20minds-decide` package if installed.
 
 ## Claude Code
 
@@ -27,7 +27,7 @@ Reinstall the plugin to pick up changed package files. This release uses plugin 
 /plugin install 20minds@20minds
 ```
 
-Authenticate the `decide` MCP connection through the client's MCP controls. The bundled skills and tools work independently of ChatGPT-specific extension surfaces.
+In Claude Code, `/20minds:case` opens a pane listing your projects and cases; pick one (or pass a case id) to see the case's findings, open unknowns, options and uncited sources (the mod is in `plugins/20minds/claude/`; the `case` skill is listed in Codex too but only works in Claude Code). Authenticate the `decide` MCP connection through the client's MCP controls. The bundled skills and tools work independently of ChatGPT-specific extension surfaces.
 
 ## Ownership
 
@@ -66,7 +66,7 @@ See [LICENSE.md](LICENSE.md).
 
 Backend deployments deliver canvas changes the next time its resource is loaded. Close and reopen an existing canvas after an update. Skills, icons, and package metadata are cached by the client: refresh the marketplace and reinstall the package to receive those changes. A backend deployment does not refresh installed skills.
 
-Version 0.6.0 restores plugin identity `20minds` and the skill names `20minds:decide` and `20minds:research`. Uninstall the temporary `20minds-decide` package, install `20minds`, and authenticate the MCP connection `decide`. Workspace data stays on the same server. No alias for the temporary identity is retained.
+Version 0.6.0 restored plugin identity `20minds`. Version 0.8.6 consolidates case management and research in `20minds:decide`; the separate `20minds:case` shortcut only opens the Claude Code pane. Uninstall the temporary `20minds-decide` package, install `20minds`, and authenticate the MCP connection `decide`. Workspace data stays on the same server. No alias for the temporary identity is retained.
 
 ## First extension release checklist
 

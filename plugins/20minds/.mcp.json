@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "decide": {
+      "type": "http",
+      "url": "https://20minds.ai/mcp"
+    }
+  }
+}
